@@ -1,0 +1,68 @@
+# 模拟网易云音乐
+
+
+#### 成员介绍及分工
+19030100333 李晨宝 设计，设计文档，及视频
+#### 介绍
+基于网易云音乐真实接口开发的音乐小程序，参考b站相关实例教学学习与实现该小程序
+
+#### 软件架构
+Nodejs作为后端
+ES6语法
+
+#### 使用教程及相关说明
+
+1.  git到本地
+2.  进入gilgamesh_server目录
+3.  在路径栏输入cmd
+4.  npm start开启服务（根据反馈或报错利用npm install补足相关依赖库)
+5. 需要安装有nodejs，可以不配置全局变量
+6. 有微信开发者工具
+7. 本地配置中勾选
+    - 使用npm模块
+    - 不校验合法域名、web-view(业务域名)、TLS版本以及 HTTPS 证书
+
+#### 关键技术点
+**数据劫持代理**
+set方法在修改属性值的时候就会被调用
+this.username = 'wade' 这样修改在set中会出现死循环
+需要用data[item] = newValue，这样就监视扩展属性的数据，劫持了 data[item]
+
+**路由跳转 **
+全局对象是wx
+登录跳转：wx.nanvigateTo({url:'/pages/logs/logs'})
+保留当前页面
+url 路径是相对路径 必须添加根路径 /pages/logs/logs
+
+**生命周期函数 **
+onHide函数在页面导览：navigateTo 时触发
+-------------------- 获取用户信息 -------------------------
+<button open-type="getUserInfo">获取用户信息</button>
+点击button--> open-type='getUserInfo'
+如何拿到用户信息
+bindgetuserinfo ='xx函数'
+getUserProfile
+接口文档地址：https://developers.weixin.qq.com/miniprogram/dev/api/open-api/user-info/wx.getUserProfile.html
+
+**组件滑动模块 scroll-view**
+使用的时候记住要 添加 enable-flex属性
+组件 -->视图容器 -->scroll-view
+
+- 打开flex：enable-flex: true 重要
+- 允许横向滚动：scroll-x
+- 允许纵向滚动：scroll-y
+单行文本溢出隐藏：
+- 使用块元素展示：display:block
+- 不换行：white-space: nowrap
+- 超出部分隐藏：overflow: hidden 作用在块元素
+- 省略号：text-overflow: ellipsis
+
+ **前后端交互 **
+  可以设置本地请求
+------ 封装ajax函数---------
+- utils ->request.js
+- 引入import request.js
+- 异步任务 --> await 等待异步任务 --> async -->返回 promise 实例
+- 初始化 promise 实例的状态为pending
+- 异步返回后需要修改状态
+request.js 异步返回 使用promise
